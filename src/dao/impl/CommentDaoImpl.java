@@ -26,4 +26,10 @@ public class CommentDaoImpl implements CommentDao {
 		return 0;
 	}
 
+	@Override
+	public List<Comment> findByGuideId(int guideId) {
+		Connection connection = DBConnection.getInstance();
+		return null;
+	}
+
 }

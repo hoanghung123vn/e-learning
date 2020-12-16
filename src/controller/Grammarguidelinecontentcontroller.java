@@ -20,16 +20,13 @@ public class Grammarguidelinecontentcontroller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
-    public Grammarguidelinecontentcontroller() 
-    {
+    public Grammarguidelinecontentcontroller() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -37,11 +34,9 @@ public class Grammarguidelinecontentcontroller extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException 
 	{
-		if (request.getCharacterEncoding()==null)
-		{
+		if (request.getCharacterEncoding() == null) {
 			request.setCharacterEncoding("UTF-8");
 		}
-		Connection conn = DBConnection.CreateConnection();
 		
 		String content = request.getParameter("content");
 		String grammarguidelineidstr = request.getParameter("grammarguidelineid");

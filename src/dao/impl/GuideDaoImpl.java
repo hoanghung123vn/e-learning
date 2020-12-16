@@ -8,13 +8,6 @@ import dao.GuideDao;
 import database.DBConnection;
 
 public class GuideDaoImpl  implements GuideDao{
-
-	@Override
-	public List<Guide> findAll() {
-		Connection connection = DBConnection.getInstance();
-		return null;
-	}
-
 	@Override
 	public void save(Guide guide) {
 		Connection connection = DBConnection.getInstance();
@@ -22,8 +15,32 @@ public class GuideDaoImpl  implements GuideDao{
 	}
 
 	@Override
-	public int countById(int id) {
+	public List<Guide> findAllGrammarGuide(int pageID, int count) {
 		Connection connection = DBConnection.getInstance();
+		return null;
+	}
+
+	@Override
+	public List<Guide> findAllVocabularyGuide() {
+		Connection connection = DBConnection.getInstance();
+		return null;
+	}
+
+	@Override
+	public Guide getById(int guideId) {
+		Connection connection = DBConnection.getInstance();
+		return null;
+	}
+
+	@Override
+	public int countGrammar() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int countVocabulary() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 

@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,48 +10,40 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import BEAN.Cmtgrammar;
-import DAO.BaihdnguphapDAO;
-import DAO.CommentgrammarDAO;
-import DB.DBConnection;
+import bean.Comment;
+import dao.CommentDao;
+import dao.GuideDao;
+import dao.impl.CommentDaoImpl;
+import dao.impl.GuideDaoImpl;
 
 
 @WebServlet("/Chitietbaihdnguphapforward")
 public class Chitietbaihdnguphapforward extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-       
+    private GuideDao guideDao;
+    private CommentDao commentDao;
    
-    public Chitietbaihdnguphapforward() 
-    {
+    public Chitietbaihdnguphapforward() {
         super();
-        // TODO Auto-generated constructor stub
+        guideDao = new GuideDaoImpl();
+        commentDao = new CommentDaoImpl();
     }
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException 
-	{
+			throws ServletException, IOException {
 		String mabaihdnguphapstr = request.getParameter("mabaihdnguphap");
-		
 		int mabaihdnguphap = Integer.parseInt(mabaihdnguphapstr);
-		
-		Connection conn = DBConnection.CreateConnection();
-		
-		String content = BaihdnguphapDAO.Displaygrammarcontent(conn, mabaihdnguphap);
-		
-		//xuat so binh luan cua bai viet
-		int countrow = CommentgrammarDAO.Countrow(conn, mabaihdnguphap);
+		String content = guideDao.getById(mabaihdnguphap).getContent();
+		int countrow = commentDao.countById(mabaihdnguphap);
 		
 		request.setAttribute("mabaihdnguphap",mabaihdnguphap);
 		request.setAttribute("grammarguidelinecontent",content);
 		request.setAttribute("kitutrongdatabase","\n");
 		request.setAttribute("kitutronghtml","<br/>");
 		request.setAttribute("countrow",countrow);
-		
-		
-		List<Cmtgrammar> list = BaihdnguphapDAO.Displaycmtgrammar(conn, mabaihdnguphap);
-		
+		List<Comment> list = commentDao.findByGuideId(mabaihdnguphap);
 		request.setAttribute("listcommentgrammar",list);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("View/Chitietbaihdnguphap.jsp");
@@ -61,9 +52,7 @@ public class Chitietbaihdnguphapforward extends HttpServlet
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException 
-	{
-		// TODO Auto-generated method stub
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 
