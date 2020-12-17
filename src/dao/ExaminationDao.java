@@ -5,9 +5,9 @@ import java.util.List;
 import bean.Examination;
 
 public interface ExaminationDao {
-	List<Examination> findAll();
+	List<Examination> findAll(int pageId, int size);
 	
 	void save(Examination examination);
 	
-	int countById(int id);
+	int count();
 }

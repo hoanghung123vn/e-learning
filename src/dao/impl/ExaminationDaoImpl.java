@@ -10,7 +10,7 @@ import database.DBConnection;
 public class ExaminationDaoImpl implements ExaminationDao {
 
 	@Override
-	public List<Examination> findAll() {
+	public List<Examination> findAll(int pageId, int sizse) {
 		Connection connection = DBConnection.getInstance();
 		return null;
 	}
@@ -22,7 +22,7 @@ public class ExaminationDaoImpl implements ExaminationDao {
 	}
 
 	@Override
-	public int countById(int id) {
+	public int count() {
 		Connection connection = DBConnection.getInstance();
 		return 0;
 	}

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import bean.Guide;
 import dao.GuideDao;
 import dao.impl.GuideDaoImpl;
+import enumeration.GuideType;
 
 @WebServlet("/Dsbaihdnguphapforward")
 public class Dsbaihdnguphapforward extends HttpServlet 
@@ -40,8 +41,8 @@ public class Dsbaihdnguphapforward extends HttpServlet
 			pageid = pageid * count +1;
 		}
 		
-		List<Guide> list = guideDao.findAllGrammarGuide(pageid, count);
-		int sumrow = guideDao.countGrammar();
+		List<Guide> list = guideDao.findAll(pageid, count, GuideType.GRAMMAR);
+		int sumrow = guideDao.count(GuideType.GRAMMAR);
 		int maxpageid= 0;
 		
 		if ((sumrow/count)%2==0) {

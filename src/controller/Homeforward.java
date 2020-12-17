@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,40 +10,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import BEAN.Sliderbanner;
-import DAO.HomeDAO;
-import DB.DBConnection;
-import java.sql.*;
-import java.util.*;
+import bean.SlideBanner;
+import dao.SlideBannerDao;
+import dao.impl.SlideBannerDaoImpl;
 
 @WebServlet("/Homeforward")
 public class Homeforward extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-       
+    private SlideBannerDao slideBannerDao;   
     
     public Homeforward() 
     {
         super();
-        // TODO Auto-generated constructor stub
+        slideBannerDao = new SlideBannerDaoImpl();
     }
 
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException 
 	{
-		Connection conn = DBConnection.CreateConnection();
-		List<Sliderbanner> list = HomeDAO.Displayslidebanner(conn);
-		
+		List<SlideBanner> list = slideBannerDao.findAll();
 		request.setAttribute("listslidebanner",list);
-		
 		RequestDispatcher rd = request.getRequestDispatcher("View/Home.jsp");
 		rd.forward(request,response);
 	}
 
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

@@ -47,6 +47,43 @@ LOCK TABLES `comments` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `exam_questions`
+--
+
+DROP TABLE IF EXISTS `exam_questions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `exam_questions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `no` int NOT NULL,
+  `image_path` varchar(45) DEFAULT NULL,
+  `audiomp3_path` varchar(45) DEFAULT NULL,
+  `audiogg_path` varchar(45) DEFAULT NULL,
+  `exam_questionscol` varchar(45) DEFAULT NULL,
+  `paragraph` text,
+  `question` varchar(255) DEFAULT NULL,
+  `option1` varchar(255) DEFAULT NULL,
+  `option2` varchar(255) DEFAULT NULL,
+  `option3` varchar(255) DEFAULT NULL,
+  `option4` varchar(255) DEFAULT NULL,
+  `correct` varchar(45) DEFAULT NULL,
+  `exam_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_exam_question_idx` (`exam_id`),
+  CONSTRAINT `fk_exam_question` FOREIGN KEY (`exam_id`) REFERENCES `examinations` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `exam_questions`
+--
+
+LOCK TABLES `exam_questions` WRITE;
+/*!40000 ALTER TABLE `exam_questions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `exam_questions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `examinations`
 --
 
@@ -134,7 +171,7 @@ CREATE TABLE `listen_questions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `no` int NOT NULL,
   `image_path` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `listen_questionscol` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `question` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `audiomp3_path` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `audiogg_path` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `option1` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -143,11 +180,8 @@ CREATE TABLE `listen_questions` (
   `option4` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `correct` int NOT NULL,
   `listen_exercise_id` int NOT NULL,
-  `examination_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_listen_exercise_id_idx` (`listen_exercise_id`),
-  KEY `fk_listen_exam_idx` (`examination_id`),
-  CONSTRAINT `fk_listen_exam` FOREIGN KEY (`examination_id`) REFERENCES `examinations` (`id`),
   CONSTRAINT `fk_listen_exercise_id` FOREIGN KEY (`listen_exercise_id`) REFERENCES `exercises` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -202,11 +236,8 @@ CREATE TABLE `read_questions` (
   `option4` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `correct` int NOT NULL,
   `read_exercise_id` int NOT NULL,
-  `examination_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_read_exercise_idx` (`read_exercise_id`),
-  KEY `fk_read_exam_idx` (`examination_id`),
-  CONSTRAINT `fk_read_exam` FOREIGN KEY (`examination_id`) REFERENCES `examinations` (`id`),
   CONSTRAINT `fk_read_exercise` FOREIGN KEY (`read_exercise_id`) REFERENCES `exercises` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -315,4 +346,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-16 21:04:20
+-- Dump completed on 2020-12-17 19:50:48

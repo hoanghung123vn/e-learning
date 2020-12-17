@@ -6,14 +6,9 @@ import java.util.List;
 import bean.Exercise;
 import dao.ExerciseDao;
 import database.DBConnection;
+import enumeration.QuestionType;
 
 public class ExerciseDaoImpl implements ExerciseDao {
-
-	@Override
-	public List<Exercise> findAll() {
-		Connection connection = DBConnection.getInstance();
-		return null;
-	}
 
 	@Override
 	public void save(Exercise exercise) {
@@ -22,9 +17,21 @@ public class ExerciseDaoImpl implements ExerciseDao {
 	}
 
 	@Override
-	public int countById(int id) {
+	public int count(QuestionType questionType) {
 		Connection connection = DBConnection.getInstance();
 		return 0;
+	}
+
+	@Override
+	public List<Exercise> findAll(int pageId, int count, QuestionType questionType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Exercise> findAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

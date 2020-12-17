@@ -20,25 +20,27 @@ import BEAN.Examinationquestion;
 import BEAN.Result;
 import DAO.LambaithiDAO;
 import DB.DBConnection;
+import bean.ExaminationQuestion;
+import dao.ExaminationQuestionDao;
+import dao.impl.ExaminationQuestionDaoImpl;
 
 
 @WebServlet("/Lambaithitoeic")
 public class Lambaithitoeic extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-       
+    private ExaminationQuestionDao examinationQuestionDao;  
     
     public Lambaithitoeic() 
     {
         super();
-        // TODO Auto-generated constructor stub
+        examinationQuestionDao = new ExaminationQuestionDaoImpl();
     }
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException 
 	{
-		Connection conn = DBConnection.CreateConnection();
 		
 		String examinationidstr = request.getParameter("examinationid");
 		int examinationid = Integer.parseInt(examinationidstr);
@@ -56,7 +58,7 @@ public class Lambaithitoeic extends HttpServlet
 			request.setAttribute("examinationid",examinationid);
 			request.setAttribute("memberid",memberid);
 			
-			List<Examinationquestion> list = LambaithiDAO.Hienthicauhoidethi(conn, examinationid);
+			List<ExaminationQuestion> list = examinationQuestionDao.findAllByExamId(examinationid);
 			
 			request.setAttribute("dscauhoi",list);
 			
@@ -80,8 +82,6 @@ public class Lambaithitoeic extends HttpServlet
 			throws ServletException, IOException 
 	{
 		
-		Connection conn = DBConnection.CreateConnection();
-		
 		String examinationidstr = request.getParameter("examinationid");
 		int examinationid = Integer.parseInt(examinationidstr);
 		
@@ -89,7 +89,7 @@ public class Lambaithitoeic extends HttpServlet
 		int memberid = Integer.parseInt(memberidstr);
 		
 		
-		int countrow = LambaithiDAO.Demsocauhoidethi(conn, examinationid);
+		int countrow = examinationQuestionDao.countByExamId(examinationid);
 		
 		List<Examinationquestion> listcorrectanswer = LambaithiDAO.Xuatdapandungdethi(conn, examinationid);
 		

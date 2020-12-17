@@ -6,6 +6,7 @@ import java.util.List;
 import bean.Guide;
 import dao.GuideDao;
 import database.DBConnection;
+import enumeration.GuideType;
 
 public class GuideDaoImpl  implements GuideDao{
 	@Override
@@ -15,16 +16,11 @@ public class GuideDaoImpl  implements GuideDao{
 	}
 
 	@Override
-	public List<Guide> findAllGrammarGuide(int pageID, int count) {
+	public List<Guide> findAll(int pageID, int count, GuideType guideType) {
 		Connection connection = DBConnection.getInstance();
 		return null;
 	}
 
-	@Override
-	public List<Guide> findAllVocabularyGuide() {
-		Connection connection = DBConnection.getInstance();
-		return null;
-	}
 
 	@Override
 	public Guide getById(int guideId) {
@@ -33,15 +29,22 @@ public class GuideDaoImpl  implements GuideDao{
 	}
 
 	@Override
-	public int countGrammar() {
-		// TODO Auto-generated method stub
+	public int count(GuideType guideType) {
+		Connection connection = DBConnection.getInstance();
 		return 0;
 	}
 
+
 	@Override
-	public int countVocabulary() {
+	public boolean updateContent(String content,int guideId) {
+		Connection connection = DBConnection.getInstance();
+		return false;
+	}
+
+	@Override
+	public Guide insertGuide(Guide guide) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 }

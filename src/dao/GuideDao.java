@@ -3,17 +3,18 @@ package dao;
 import java.util.List;
 
 import bean.Guide;
+import enumeration.GuideType;
 
 public interface GuideDao {
-	List<Guide> findAllGrammarGuide(int pageId, int count);
-	
-	List<Guide> findAllVocabularyGuide();
+	List<Guide> findAll(int pageId, int count, GuideType guideType);
 	
 	Guide getById(int guideId);
 	
 	void save(Guide guides);
 	
-	int countGrammar();
+	int count(GuideType guideType);
 	
-	int countVocabulary();
+	boolean updateContent(String content, int guideId);
+	
+	Guide insertGuide(Guide guide);
 }
