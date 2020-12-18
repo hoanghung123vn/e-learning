@@ -10,9 +10,9 @@ public interface ExerciseDao {
     
     List<Exercise> findAll(int pageId, int count, QuestionType questionType);
 	
-	void save(Exercise exercise);
+	boolean save(Exercise exercise);
 	
 	int count(QuestionType questionType);
 	
-	void checkedExercis(int exerciseId);
+	void checkedExercise(int exerciseId);
 }

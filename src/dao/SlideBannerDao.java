@@ -8,6 +8,4 @@ public interface SlideBannerDao {
 	List<SlideBanner> findAll();
 	
 	void save(SlideBanner slideBanner);
-	
-	int countById(int id);
 }

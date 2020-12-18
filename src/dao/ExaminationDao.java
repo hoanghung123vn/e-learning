@@ -7,7 +7,7 @@ import bean.Examination;
 public interface ExaminationDao {
 	List<Examination> findAll(int pageId, int size);
 	
-	void save(Examination examination);
+	boolean save(Examination examination);
 	
 	int count();
 }

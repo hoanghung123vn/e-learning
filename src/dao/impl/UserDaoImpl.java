@@ -8,8 +8,6 @@ import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import com.mysql.cj.protocol.a.NativeConstants.StringLengthDataType;
-
 import bean.User;
 import dao.UserDao;
 import database.DBConnection;
@@ -51,12 +49,6 @@ public class UserDaoImpl implements UserDao {
 		}
 		
 		return false;
-	}
-
-	@Override
-	public int countById(int id) {
-		Connection connection = DBConnection.getInstance();
-		return 0;
 	}
 
 	@Override

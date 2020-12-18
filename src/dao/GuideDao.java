@@ -10,13 +10,11 @@ public interface GuideDao {
 	
 	Guide getById(int guideId);
 	
-	void save(Guide guides);
-	
 	int count(GuideType guideType);
 	
 	boolean updateContent(String content, int guideId);
 	
-	Guide insertGuide(Guide guide);
+	boolean insertGuide(Guide guide);
 	
 	List<Guide> findByTitle(String title);
 	

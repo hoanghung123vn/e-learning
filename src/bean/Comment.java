@@ -2,8 +2,11 @@ package bean;
 
 public class Comment {
 	private int id;
-	
-	private String contentString;
+
+	public Comment() {
+	}
+
+	private String content;
 	
 	private int userId;
 	
@@ -17,12 +20,12 @@ public class Comment {
 		this.id = id;
 	}
 	
-	public String getContentString() {
-		return contentString;
+	public String getContent() {
+		return content;
 	}
 	
-	public void setContentString(String contentString) {
-		this.contentString = contentString;
+	public void setContent(String content) {
+		this.content = content;
 	}
 	
 	public int getUserId() {
@@ -37,8 +40,8 @@ public class Comment {
 		return guideId;
 	}
 	
-	public Comment(String contentString, int userId, int guideId) {
-		this.contentString = contentString;
+	public Comment(String content, int userId, int guideId) {
+		this.content = content;
 		this.userId = userId;
 		this.guideId = guideId;
 	}

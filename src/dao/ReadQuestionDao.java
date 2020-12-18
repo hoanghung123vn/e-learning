@@ -5,8 +5,6 @@ import java.util.List;
 import bean.ReadQuestion;
 
 public interface ReadQuestionDao {
-	List<ReadQuestion> findAll();
-	
 	List<ReadQuestion> findAllByExerciseId(int exerciseId, int pageId, int size);
 	
 	void save(ReadQuestion readQuestion);

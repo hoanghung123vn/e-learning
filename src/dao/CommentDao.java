@@ -9,7 +9,7 @@ public interface CommentDao {
 	
 	List<Comment> findByGuideId(int guideId);
 	
-	void save(Comment comment);
+	boolean save(Comment comment);
 	
 	int countById(int id);
 	

@@ -46,9 +46,9 @@ public class Insertgrammarguidelinename extends HttpServlet {
 		grammarguideline.setTitle(grammarname);
 		grammarguideline.setGuideType(GuideType.GRAMMAR);
 		
-		Guide kt = guideDao.insertGuide(grammarguideline);
+		boolean kt = guideDao.insertGuide(grammarguideline);
 		
-		if (kt != null)
+		if (kt)
 		{
 			int grammarguidelineid = kt.getId();
 			request.setAttribute("grammarguidelineid", grammarguidelineid);
@@ -58,7 +58,7 @@ public class Insertgrammarguidelinename extends HttpServlet {
 		}
 		else
 		{
-			request.setAttribute("msglistgrammarguidelinemanage","Thêm không thành công");
+			request.setAttribute("msglistgrammarguidelinemanage","Thï¿½m khï¿½ng thï¿½nh cï¿½ng");
 			RequestDispatcher rd = request.getRequestDispatcher("Listgrammarguidelinemanage");
 			rd.forward(request,response);
 		}

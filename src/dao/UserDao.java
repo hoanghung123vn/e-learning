@@ -9,7 +9,5 @@ public interface UserDao {
 	
 	boolean save(User user);
 	
-	int countById(int id);
-	
 	User getByUserName(String userName);
 }

@@ -10,7 +10,31 @@ public class ExaminationQuestion {
 	private String correct;
 	private String imagePath;
 	private String audiomp3Path;
-	private String audiooggPath;
+	private String audioggPath;
+
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
+
+	private String question;
+	private int no;
+	private int examId;
+	public int getExamId() {
+		return examId;
+	}
+	public void setExamId(int examId) {
+		this.examId = examId;
+	}
+	public String getQuestion() {
+		return question;
+	}
+	public void setQuestion(String question) {
+		this.question = question;
+	}
 	public int getId() {
 		return id;
 	}
@@ -65,10 +89,10 @@ public class ExaminationQuestion {
 	public void setAudiomp3Path(String audiomp3Path) {
 		this.audiomp3Path = audiomp3Path;
 	}
-	public String getAudiooggPath() {
-		return audiooggPath;
+	public String getAudioggPath() {
+		return audioggPath;
 	}
-	public void setAudiooggPath(String audiooggPath) {
-		this.audiooggPath = audiooggPath;
+	public void setAudioggPath(String audioggPath) {
+		this.audioggPath = audioggPath;
 	}
 }

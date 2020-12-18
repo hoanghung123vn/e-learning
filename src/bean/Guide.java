@@ -9,12 +9,12 @@ public class Guide {
 	public String getTitle() {
 		return title;
 	}
+	private GuideType guideType;
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	private GuideType guideType;
 	public int getId() {
 		return id;
 	}

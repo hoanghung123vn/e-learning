@@ -92,8 +92,8 @@ DROP TABLE IF EXISTS `examinations`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `examinations` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `image_path` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `image_path` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `checked_question` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -117,10 +117,10 @@ DROP TABLE IF EXISTS `exercises`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `exercises` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `image_path` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `image_path` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `checked_question` int NOT NULL,
-  `type` enum('READ','LISTEN') COLLATE utf8_unicode_ci NOT NULL,
+  `type` enum('READ','LISTEN') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -143,10 +143,10 @@ DROP TABLE IF EXISTS `guides`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `guides` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `image_path` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `content` text COLLATE utf8_unicode_ci,
-  `type` enum('GRAMMAR','VOCABULARY') COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `image_path` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `content` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `type` enum('GRAMMAR','VOCABULARY') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -170,14 +170,14 @@ DROP TABLE IF EXISTS `listen_questions`;
 CREATE TABLE `listen_questions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `no` int NOT NULL,
-  `image_path` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `question` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `audiomp3_path` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `audiogg_path` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `option1` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `option2` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `option3` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `option4` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `image_path` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `question` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `audiomp3_path` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `audiogg_path` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `option1` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `option2` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `option3` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `option4` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `correct` int NOT NULL,
   `listen_exercise_id` int NOT NULL,
   PRIMARY KEY (`id`),
@@ -204,7 +204,7 @@ DROP TABLE IF EXISTS `provinces`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `provinces` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -252,6 +252,38 @@ LOCK TABLES `read_questions` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `results`
+--
+
+DROP TABLE IF EXISTS `results`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `results` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `sum_correct_read` int NOT NULL,
+  `sum_correct_listen` int NOT NULL,
+  `sum_incorrect` int NOT NULL,
+  `user_id` int NOT NULL,
+  `exam_id` int NOT NULL,
+  `timestamp` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_result_user_idx` (`user_id`),
+  KEY `fk_result_exam_idx` (`exam_id`),
+  CONSTRAINT `fk_result_exam` FOREIGN KEY (`exam_id`) REFERENCES `examinations` (`id`),
+  CONSTRAINT `fk_result_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `results`
+--
+
+LOCK TABLES `results` WRITE;
+/*!40000 ALTER TABLE `results` DISABLE KEYS */;
+/*!40000 ALTER TABLE `results` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `slide_banners`
 --
 
@@ -260,9 +292,9 @@ DROP TABLE IF EXISTS `slide_banners`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `slide_banners` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `content` text COLLATE utf8_unicode_ci,
-  `image_path` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `content` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `image_path` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -285,15 +317,15 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `user_name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `role` enum('ADMIN','MEMBER') COLLATE utf8_unicode_ci NOT NULL,
-  `province_id` int NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `user_name` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `role` enum('ADMIN','MEMBER') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `province_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_province_idx` (`province_id`),
   CONSTRAINT `fk_province` FOREIGN KEY (`province_id`) REFERENCES `provinces` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,6 +334,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (5,'Hoang Van Hung','hoang77hung@gmail.com','$2a$10$oO2JoBFPjGaqmur5Hlwl..xN6SJx8UdFAWVglokNOkErjU.zViuXi','MEMBER',NULL),(6,'adsdsad','hoanghung123vn','$2a$10$YxjrGBHJAhTMXwsFRYYCD.nVFXz3WyBolzYngyA6BO37CaxcI78gm','MEMBER',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -315,12 +348,12 @@ DROP TABLE IF EXISTS `voca_contents`;
 CREATE TABLE `voca_contents` (
   `id` int NOT NULL AUTO_INCREMENT,
   `num` int NOT NULL,
-  `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `transcribe` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `image_path` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `audiomp3_path` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `audiogg_path` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `mean` text COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `transcribe` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `image_path` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `audiomp3_path` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `audiogg_path` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mean` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `voca_guide_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_guide_idx` (`voca_guide_id`),
@@ -346,4 +379,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-17 19:50:48
+-- Dump completed on 2020-12-18 23:22:07
