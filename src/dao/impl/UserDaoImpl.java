@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.mysql.cj.protocol.a.NativeConstants.StringLengthDataType;
+
 import bean.User;
 import dao.UserDao;
 import database.DBConnection;
@@ -71,6 +73,7 @@ public class UserDaoImpl implements UserDao {
 				user.setName(rs.getString("name"));
 				user.setUserName(rs.getString("user_name"));
 				user.setPassword(rs.getString("password"));
+				user.setRole(Role.valueOf(rs.getString("role")));
 			}
 			
 			return user;
