@@ -19,4 +19,10 @@ public class ExaminationQuestionDaoImpl implements ExaminationQuestionDao {
 		return 0;
 	}
 
+	@Override
+	public ExaminationQuestion getQuestionByExamIdAndNo(int examI, int no) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

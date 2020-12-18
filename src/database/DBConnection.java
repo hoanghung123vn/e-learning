@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBConnection {
     private static final String CLASSNAME = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/lab3_db?serverTimezone=UTC"
+    private static final String URL = "jdbc:mysql://localhost:3306/learning_toeic_db?serverTimezone=UTC"
             + "&useUnicode=yes&characterEncoding=UTF-8";
     private static final String USER = "root";
     private static final String PASSWORD = "123456";

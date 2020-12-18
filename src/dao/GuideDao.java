@@ -17,4 +17,8 @@ public interface GuideDao {
 	boolean updateContent(String content, int guideId);
 	
 	Guide insertGuide(Guide guide);
+	
+	List<Guide> findByTitle(String title);
+	
+	void delete(int id);
 }

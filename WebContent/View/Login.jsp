@@ -100,7 +100,7 @@
 											</div>
 
 											<div>
-												<a href="Registerforward" class="user-signup-link">
+												<a href="/LearningToeic/Registercontroller" class="user-signup-link">
 													Đăng ký
 													<i class="ace-icon fa fa-arrow-right"></i>
 												</a>

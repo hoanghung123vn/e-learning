@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,19 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import DAO.QuanlybtdocDAO;
-import DAO.QuanlydethiDAO;
-import DB.DBConnection;
+import dao.ExerciseDao;
+import dao.impl.ExerciseDaoImpl;
+import helper.FileHelper;
 
 
 @WebServlet("/Themcauhoibtdoc")
 public class Themcauhoibtdoc extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private ExerciseDao exerciseDao;
    
     public Themcauhoibtdoc() {
         super();
-        // TODO Auto-generated constructor stub
+        exerciseDao = new ExerciseDaoImpl();
     }
 
 	
@@ -40,18 +39,16 @@ public class Themcauhoibtdoc extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException 
 	{
-		Connection conn = DBConnection.CreateConnection();
-		
 		String readexeriseidstr = request.getParameter("readexeriseid");
 		int readexeriseid = Integer.parseInt(readexeriseidstr);
+		String test = "init";
+		response.setContentType("text/html; charset=UTF-8");
 		
-		
-		String test = QuanlybtdocDAO.Uploadcauhoibtdoc(conn, request, response, readexeriseid);
+		FileHelper.readExcelFile("Imageandfilebtdoc/", request, readexeriseid);
 		
 		if (test.equals("Success"))
 		{
-			QuanlybtdocDAO.Kiemtracauhoibtdoc(request, conn, 1 , readexeriseid); 
-			
+			exerciseDao.checkedExercis(readexeriseid); 
 			RequestDispatcher rd = request.getRequestDispatcher("Hienthidsbtdoc?pageid=1");
 			rd.forward(request,response);	
 		}

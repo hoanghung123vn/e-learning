@@ -27,4 +27,10 @@ public class VocabularyContentDaoImpl implements VocabularyContentDao {
 		return 0;
 	}
 
+	@Override
+	public List<VocabularyContent> findAllByGuideId(int guideId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

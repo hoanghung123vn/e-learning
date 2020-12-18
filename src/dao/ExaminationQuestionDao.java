@@ -8,4 +8,6 @@ public interface ExaminationQuestionDao {
 	List<ExaminationQuestion> findAllByExamId(int examId);
 	
 	int countByExamId(int examId);
+	
+	ExaminationQuestion getQuestionByExamIdAndNo(int examId, int no);
 }

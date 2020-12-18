@@ -34,4 +34,10 @@ public class ExerciseDaoImpl implements ExerciseDao {
 		return null;
 	}
 
+	@Override
+	public void checkedExercis(int exerciseId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

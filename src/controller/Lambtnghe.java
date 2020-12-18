@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -12,83 +10,59 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import BEAN.Listenquestion;
-import BEAN.Readquestion;
-import DAO.LambtngheDAO;
-import DAO.LambtphandocDAO;
-import DB.DBConnection;
-
+import bean.ListenQuestion;
+import dao.ListenQuestionDao;
+import dao.impl.ListenQuestionDaoImpl;
 
 @WebServlet("/Lambtnghe")
 public class Lambtnghe extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private ListenQuestionDao listenQuestionDao;   
    
     public Lambtnghe() {
         super();
-        // TODO Auto-generated constructor stub
+        listenQuestionDao = new ListenQuestionDaoImpl();
     }
 
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException 
 	{
-		try 
+		String listenexerciseidstr = request.getParameter("listenexerciseid");
+		int listenexerciseid = Integer.parseInt(listenexerciseidstr);
+		String pageidstr = request.getParameter("pageid");
+		int pageid = Integer.parseInt(pageidstr);
+		int count = 1;
+		
+		if (pageid == 1)
 		{
-			String listenexerciseidstr = request.getParameter("listenexerciseid");
-			int listenexerciseid = Integer.parseInt(listenexerciseidstr);
 			
-			
-			String pageidstr = request.getParameter("pageid");
-			int pageid = Integer.parseInt(pageidstr);
-			
-			
-			int count = 1;
-			
-			
-			if (pageid == 1)
-			{
-				
-			}
-			else 
-			{
-				pageid = pageid -1;
-				pageid = pageid * count +1;
-			}
-			
-			
-			Connection conn = DBConnection.CreateConnection();
-			
-			List<Listenquestion> list = LambtngheDAO.Hienthicauhoibtnghe(request, pageid, count, conn, listenexerciseid);
-			
-			
-			int sumrow = LambtngheDAO.Demcauhoitheoma(conn, listenexerciseid);
-			
-			int maxpageid= 0;
-			
-			if ((sumrow/count)%2==0)
-			{
-				maxpageid = (sumrow/count);
-			}
-			else
-			{
-				maxpageid = (sumrow/count)+1;
-			}
-			
-			request.setAttribute("maxpageid",maxpageid);
-			request.setAttribute("listenexerciseid",listenexerciseid);
-			
-			request.setAttribute("danhsachcauhoibtnghe",list);
-			
-			request.setAttribute("numberpage",Integer.parseInt(pageidstr));
-			
-			conn.close();
-			
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
 		}
+		else 
+		{
+			pageid = pageid -1;
+			pageid = pageid * count +1;
+		}
+		
+		List<ListenQuestion> list = listenQuestionDao.findAllByExerciseId(listenexerciseid, pageid, count);;
+		
+		int sumrow = listenQuestionDao.countByExerciseId(listenexerciseid);
+		
+		int maxpageid= 0;
+		
+		if ((sumrow/count)%2==0)
+		{
+			maxpageid = (sumrow/count);
+		}
+		else
+		{
+			maxpageid = (sumrow/count)+1;
+		}
+		
+		request.setAttribute("maxpageid",maxpageid);
+		request.setAttribute("listenexerciseid",listenexerciseid);
+		
+		request.setAttribute("danhsachcauhoibtnghe",list);
+		request.setAttribute("numberpage",Integer.parseInt(pageidstr));
 		
 		RequestDispatcher rd = request.getRequestDispatcher("View/Lambtphannghe.jsp");
 		rd.forward(request,response);
@@ -99,12 +73,8 @@ public class Lambtnghe extends HttpServlet {
 			throws ServletException, IOException 
 	{
 		String kq = request.getParameter("kq");
-		
-		Connection conn = DBConnection.CreateConnection();
-		
 		String listenexerciseidstr = request.getParameter("listenexerciseid");
 		int listenexerciseid = Integer.parseInt(listenexerciseidstr);
-		
 		String numstr = request.getParameter("num");
 		int num = Integer.parseInt(numstr);
 		
@@ -119,9 +89,9 @@ public class Lambtnghe extends HttpServlet {
 		}
 		else
 		{	
-			List<Listenquestion> list = LambtngheDAO.Xuatdapanbtnghe(request, conn, listenexerciseid, num);
+			List<ListenQuestion> questions = listenQuestionDao.getByExerciseIdAndNo(listenexerciseid, num);
 			
-			request.setAttribute("dapandungbtnghe",list);
+			request.setAttribute("dapandungbtnghe", questions);
 			request.setAttribute("kq",kq);
 			
 			

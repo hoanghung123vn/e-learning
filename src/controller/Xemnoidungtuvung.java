@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,19 +10,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import BEAN.Vocabularycontent;
-import DAO.HdhoctuvungDAO;
-import DB.DBConnection;
+import bean.VocabularyContent;
+import dao.VocabularyContentDao;
+import dao.impl.VocabularyContentDaoImpl;
 
 
 @WebServlet("/Xemnoidungtuvung")
 public class Xemnoidungtuvung extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private VocabularyContentDao vocabularyContentDao;
     
     public Xemnoidungtuvung() {
         super();
-        // TODO Auto-generated constructor stub
+        vocabularyContentDao = new VocabularyContentDaoImpl();
     }
 
 	
@@ -34,10 +33,7 @@ public class Xemnoidungtuvung extends HttpServlet {
 		
 		int vocabularyguidelineid = Integer.parseInt(vocabularyguidelineidstr);
 		
-		Connection conn = DBConnection.CreateConnection();
-		
-		
-		List<Vocabularycontent> list = HdhoctuvungDAO.Hienthinoidungtuvung(request, conn,vocabularyguidelineid);
+		List<VocabularyContent> list = vocabularyContentDao.findAllByGuideId(vocabularyguidelineid);
 		
 		
 		request.setAttribute("noidungtuvung",list);

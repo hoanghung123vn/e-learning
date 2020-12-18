@@ -1,8 +1,7 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,26 +14,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import BEAN.Answeruser;
-import BEAN.Examinationquestion;
-import BEAN.Result;
-import DAO.LambaithiDAO;
-import DB.DBConnection;
 import bean.ExaminationQuestion;
+import bean.Result;
+import bean.UserAnswer;
 import dao.ExaminationQuestionDao;
+import dao.ResultDao;
 import dao.impl.ExaminationQuestionDaoImpl;
-
+import dao.impl.ResultDaoImpl;
 
 @WebServlet("/Lambaithitoeic")
 public class Lambaithitoeic extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-    private ExaminationQuestionDao examinationQuestionDao;  
+	private ExaminationQuestionDao examinationQuestionDao;
+	private ResultDao resultDao;
     
     public Lambaithitoeic() 
     {
         super();
         examinationQuestionDao = new ExaminationQuestionDaoImpl();
+        resultDao = new ResultDaoImpl();
     }
 
 	
@@ -91,14 +90,13 @@ public class Lambaithitoeic extends HttpServlet
 		
 		int countrow = examinationQuestionDao.countByExamId(examinationid);
 		
-		List<Examinationquestion> listcorrectanswer = LambaithiDAO.Xuatdapandungdethi(conn, examinationid);
+		List<ExaminationQuestion> listcorrectanswer = examinationQuestionDao.findAllByExamId(examinationid);
 		
-		List<Answeruser> listansweruser = new ArrayList<Answeruser>();
-		
-		
+		List<UserAnswer> listansweruser = new ArrayList<UserAnswer>();
+
 		int socaudung=0;
-		int socaudungphannghe=0;
-		int socaudungphandoc=0;
+		int socaudungphannghe =0;
+		int socaudungphandoc =0;
 		for (int i =1; i<= countrow; i++)
 		{
 			String answer = request.getParameter("ans["+i+"]");
@@ -106,12 +104,12 @@ public class Lambaithitoeic extends HttpServlet
 			if (answer != null)
 			{
 				//luu danh sach dap an cua user
-				Answeruser au = new Answeruser();	
-				au.setNum(i);
+				UserAnswer au = new UserAnswer();	
+				au.setNo(i);
 				au.setAnswer(answer);		
 				listansweruser.add(au);
 				
-				String dapandung = LambaithiDAO.Dapancua1cauhoi(conn, examinationid,i);
+				String dapandung = examinationQuestionDao.getQuestionByExamIdAndNo(examinationid, i).getCorrect();
 				
 				if (i<=4)
 				{
@@ -138,8 +136,8 @@ public class Lambaithitoeic extends HttpServlet
 			}
 			else
 			{
-				Answeruser au = new Answeruser();	
-				au.setNum(i);
+				UserAnswer au = new UserAnswer();	
+				au.setNo(i);
 				au.setAnswer("Không chọn");		
 				listansweruser.add(au);
 			}
@@ -156,25 +154,21 @@ public class Lambaithitoeic extends HttpServlet
 		
 		Result result = new Result();
 		
-		result.setCorrectanswernum(socaudung);
-		result.setIncorrectanswernum(socausai);
-		result.setTime(date.toString());
-		result.setExaminationid(examinationid);
-		result.setMemberid(memberid);
-		result.setCorrectanswerlisten(socaudungphannghe);
-		result.setCorrectanswerread(socaudungphandoc);
+		result.setSumIncorrect(socausai);
+		result.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		result.setExamId(examinationid);
+		result.setUserId(memberid);
+		result.setSumListenCorrect(socaudungphannghe);
+		result.setSumReadCorrect(socaudungphandoc);
 		
-		LambaithiDAO.Luuketquathi(conn, result);
+		resultDao.save(result);
 		
 		request.setAttribute("kitutrongdatabase","\n");
 		request.setAttribute("kitutronghtml","<br/>");
 		request.setAttribute("listcorrectanswer",listcorrectanswer);
 		request.setAttribute("listansweruser",listansweruser);
 		
-		
-		List<Result> list = LambaithiDAO.Xuatketquathi(conn,date.toString(), examinationid, memberid);
-		
-		request.setAttribute("ketquathi",list);
+		request.setAttribute("ketquathi", result);
 		
 		
 		RequestDispatcher rd = request.getRequestDispatcher("View/Ketquathi.jsp");

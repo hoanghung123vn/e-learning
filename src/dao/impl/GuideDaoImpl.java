@@ -47,4 +47,16 @@ public class GuideDaoImpl  implements GuideDao{
 		return null;
 	}
 
+	@Override
+	public List<Guide> findByTitle(String title) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

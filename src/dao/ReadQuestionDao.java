@@ -7,7 +7,11 @@ import bean.ReadQuestion;
 public interface ReadQuestionDao {
 	List<ReadQuestion> findAll();
 	
+	List<ReadQuestion> findAllByExerciseId(int exerciseId, int pageId, int size);
+	
 	void save(ReadQuestion readQuestion);
 	
-	int countById(int id);
+	int countByExerciseId(int exerciseId);
+	
+	List<ReadQuestion> getByExerciseIdAndNo(int exerciseId, int no);
 }

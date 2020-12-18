@@ -22,9 +22,21 @@ public class ReadQuestionDaoImpl implements ReadQuestionDao {
 	}
 
 	@Override
-	public int countById(int id) {
+	public int countByExerciseId(int exerciseId) {
 		Connection connection = DBConnection.getInstance();
 		return 0;
+	}
+
+	@Override
+	public List<ReadQuestion> findAllByExerciseId(int exerciseId, int pageId, int size) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReadQuestion> getByExerciseIdAndNo(int exerciseId, int no) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

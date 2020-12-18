@@ -13,4 +13,6 @@ public interface ExerciseDao {
 	void save(Exercise exercise);
 	
 	int count(QuestionType questionType);
+	
+	void checkedExercis(int exerciseId);
 }

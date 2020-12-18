@@ -10,26 +10,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import BEAN.Member;
-import DAO.LoginDAO;
-import DB.DBConnection;
+import org.mindrot.jbcrypt.BCrypt;
 
-import java.sql.*;
+import bean.User;
+import dao.UserDao;
+import dao.impl.UserDaoImpl;
+import enumeration.Role;
 
 @WebServlet("/Logincontroller")
 public class Logincontroller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private UserDao userDao;   
     
-    public Logincontroller() 
-    {
+    public Logincontroller() {
         super();
-        // TODO Auto-generated constructor stub
+        userDao = new UserDaoImpl();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException 
-	{
+			throws ServletException, IOException {
 		RequestDispatcher rd = request.getRequestDispatcher("View/Login.jsp");
 		rd.forward(request,response);
 	}
@@ -37,55 +36,41 @@ public class Logincontroller extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException 
 	{
-		Connection conn = DBConnection.CreateConnection();
 		String membername = request.getParameter("membername");
 		String memberpass = request.getParameter("memberpass");
-		Member member = new Member();
-		member.setMembername(membername);
-		member.setMemberpass(memberpass);
-		
-		String name = LoginDAO.Exportnamemember(request, conn, member);
-		int memberid = LoginDAO.Exportmemberid(request, conn, member);
-		
-		String authentication = LoginDAO.Authenticationmember(request, conn, member);
-		if (authentication.equals("success"))
-		{
-			int authorization = LoginDAO.Authorizationmember(request, conn, member);
-			if (authorization==1)
-			{
-				 
-				HttpSession session = request.getSession(true);
-				
-				session.setAttribute("sessionuser",name);
-				session.setAttribute("sessionmemberid",memberid);
-				
-				RequestDispatcher rd = request.getRequestDispatcher("Homeforward");
-				rd.forward(request,response);
-			}
-			else
-			{
-				if (authorization==2)
-				{
-					HttpSession session = request.getSession(true);
-					
-					session.setAttribute("sessionadmin",name);
-					
-					RequestDispatcher rd = request.getRequestDispatcher("Adminforward");
-					rd.forward(request,response);
-				}
-				
-			}
+		User user = userDao.getByUserName(membername);
+		if (user.getId() == 0) {
+			request.setAttribute("msglogin","Tên hoặc mật khẩu sai");
+			RequestDispatcher rd = request.getRequestDispatcher("View/Login.jsp");
+			rd.forward(request,response);
 		}
-		else 
-		{
-			if (authentication.equals("fail"))
-			{
-				request.setAttribute("msglogin","Tên hoặc mật khẩu sai");
-				RequestDispatcher rd = request.getRequestDispatcher("View/Login.jsp");
-				rd.forward(request,response);
-			}
+		
+		boolean authenticated = authenticate(user.getPassword(), memberpass);
+		if (authenticated && user.getRole().equals(Role.MEMBER)) {
+			HttpSession session = request.getSession(true);
+			session.setAttribute("sessionuser", user.getUserName());
+			session.setAttribute("sessionmemberid", user.getId());
 			
+			RequestDispatcher rd = request.getRequestDispatcher("Homeforward");
+			rd.forward(request,response);
+		}
+		else if (authenticated && user.getRole().equals(Role.ADMIN)) {
+			HttpSession session = request.getSession(true);
+			
+			session.setAttribute("sessionadmin", user.getUserName());
+			session.setAttribute("sessionadminid", user.getId());
+			
+			RequestDispatcher rd = request.getRequestDispatcher("Adminforward");
+			rd.forward(request,response);
+		}
+		else {
+			request.setAttribute("msglogin","Tên hoặc mật khẩu sai");
+			RequestDispatcher rd = request.getRequestDispatcher("View/Login.jsp");
+			rd.forward(request,response);
 		}
 	}
 
+	private boolean authenticate(String password, String passwordRaw) {
+		return BCrypt.checkpw(passwordRaw, password);
+	}
 }

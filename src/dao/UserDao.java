@@ -7,7 +7,9 @@ import bean.User;
 public interface UserDao {
 	List<User> findAll();
 	
-	void save(User user);
+	boolean save(User user);
 	
 	int countById(int id);
+	
+	User getByUserName(String userName);
 }

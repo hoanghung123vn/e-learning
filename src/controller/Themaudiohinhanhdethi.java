@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,8 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import DAO.QuanlydethiDAO;
-import DB.DBConnection;
+import helper.FileHelper;
 
 
 @WebServlet("/Themaudiohinhanhdethi")
@@ -36,14 +34,12 @@ public class Themaudiohinhanhdethi extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException 
 	{
-		Connection conn = DBConnection.CreateConnection();
+		String test = FileHelper.uploadFile("Imageaudiodethi/", request);
 		
-		
-		String test = QuanlydethiDAO.Themaudiohinhanhdethi(conn, request, response);
+		response.setContentType("text/html; charset=UTF-8");
 		
 		if (test.equals("Success"))
 		{
-			
 			RequestDispatcher rd = request.getRequestDispatcher("Hienthidsquanlydethi?pageid=1");
 			rd.forward(request,response);	
 		}

@@ -32,4 +32,10 @@ public class CommentDaoImpl implements CommentDao {
 		return null;
 	}
 
+	@Override
+	public void deleteByGuideId(int guideId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

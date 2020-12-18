@@ -12,4 +12,6 @@ public interface CommentDao {
 	void save(Comment comment);
 	
 	int countById(int id);
+	
+	void deleteByGuideId(int guideId);
 }

@@ -9,21 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import BEAN.Member;
-import DAO.RegisterDAO;
-import DB.DBConnection;
-import java.sql.*;
+import bean.User;
+import dao.UserDao;
+import dao.impl.UserDaoImpl;
 
 
 @WebServlet("/Registercontroller")
 public class Registercontroller extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-       
+    private UserDao userDao;  
 
     public Registercontroller() {
         super();
-        // TODO Auto-generated constructor stub
+        userDao = new UserDaoImpl();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -41,18 +40,16 @@ public class Registercontroller extends HttpServlet
 					request.setCharacterEncoding("UTF-8");
 				}
 				
-				Connection conn = DBConnection.CreateConnection();
-				
 				String name = request.getParameter("name");
 				String membername = request.getParameter("membername");
 				String memberpass = request.getParameter("memberpass");
 				
-				Member member = new Member();
+				User member = new User();
 				member.setName(name);
-				member.setMembername(membername);
-				member.setMemberpass(memberpass);
+				member.setUserName(membername);
+				member.setPassword(memberpass);
 				
-				boolean test = RegisterDAO.InsertAccount(request, conn, member);
+				boolean test = userDao.save(member);
 				
 				if (test)
 				{

@@ -136,7 +136,7 @@
 											</div>
 											
 											<div>
-												<a href="Loginforward" class="user-signup-link">
+												<a href="/LearningToeic/Logincontroller" class="user-signup-link">
 													Đăng nhập
 													<i class="ace-icon fa fa-arrow-right"></i>
 												</a>
